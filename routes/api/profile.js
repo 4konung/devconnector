@@ -160,6 +160,28 @@ router.post(
   }
 );
 
+//@route DELETE api/profile/:user_id
+//@desc Delete user profile
+//@access Private
+router.delete(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOneAndRemove({ user: req.user.id })
+      .then(()=> {
+          User.findOneAndRemove({_id: req.user.id}, User)
+        })
+      .then(()=> {
+          res.json({success: true})
+        })
+      .catch(
+        error => {
+          res.status(400).json(error)
+        }
+      )
+  }
+);
+
 //@route POST api/profile/experience
 //@desc Add expirience to profile
 //@access Private
