@@ -1,9 +1,15 @@
 import React, { Component } from "react";
-import axios from "axios";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { registerUser } from "../../store/actions/auth-actions";
+import PropTypes from "prop-types";
 import createClassName from "./dynamic-class-names";
 const classname = createClassName("form-control form-control-lg");
 
 class Register extends Component {
+  static getDerivedStateFromProps({ errors }) {
+    return (Object.keys(errors).length > 0) ? {errors} : null ;
+  }
   initialState = {
     name: "",
     email: "",
@@ -21,13 +27,10 @@ class Register extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    const { history } = this.props;
     const { name, email, password, password2 } = this.state;
     const newUser = { name, email, password, password2 };
-    this.setState({errors:{}});
-     axios
-      .post("/api/users/register", newUser)
-      .then(res => console.log(res))
-      .catch(({ response: { data } }) => this.setState({ errors: data }))
+    this.props.registerUser(newUser, history);
   };
 
   render() {
@@ -49,9 +52,9 @@ class Register extends Component {
                 Create your DevConnector account
               </p>
               <form
-               action="create-profile.html"
-               onSubmit={handleSubmit}
-               noValidate
+                action="create-profile.html"
+                onSubmit={handleSubmit}
+                noValidate
               >
                 <div className="form-group">
                   <input
@@ -110,6 +113,22 @@ class Register extends Component {
       </div>
     );
   }
+};
+
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 }
 
-export default Register;
+const mapStateToProps = ({ auth, errors }) => {
+  return {
+    auth,
+    errors
+  };
+};
+
+
+const RegisterWithRouter = withRouter(Register);
+export default connect(mapStateToProps, {registerUser})(RegisterWithRouter);

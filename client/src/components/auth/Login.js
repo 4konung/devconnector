@@ -1,9 +1,20 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {loginUser} from '../../store/actions/auth-actions';
 import createClassName from "./dynamic-class-names";
 const classname = createClassName("form-control form-control-lg");
 
 
 class Login extends Component {
+  static getDerivedStateFromProps({ errors, history, auth }) {
+    if(auth.isAuthenticated){
+      history.push('/dashboard');
+      return null;
+    };
+    return (Object.keys(errors).length > 0) ? {errors} : null;
+  }
+
   initialState = {
     email: '',
     password: '',
@@ -19,8 +30,12 @@ class Login extends Component {
   
   handleSubmit = event =>{
     event.preventDefault();
-    this.setState(this.initialState)
+    const {email, password} = this.state;
+    const {loginUser} = this.props;
+    loginUser({email, password});
   }
+
+  
 
   render() {
     const {handleChange, handleSubmit} = this;
@@ -76,4 +91,16 @@ class Login extends Component {
   }
 }
 
-export default Login;
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+}
+
+const mapStateToProps = ({auth, errors}) => {
+  return {
+    auth, errors
+  }
+}
+
+export default connect(mapStateToProps, {loginUser})(Login);
