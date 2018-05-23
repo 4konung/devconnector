@@ -25,10 +25,10 @@ const SelectListGroup = ({
   onChangeHandler,
   options
 }) => {
-  const selectOptions = options.map(({ lable, value }) => {
+  const selectOptions = options.map(({ label, value }) => {
     return (
-      <option key={lable} value={value}>
-        {lable}
+      <option key={label} value={value}>
+        {label}
       </option>
     );
   });
