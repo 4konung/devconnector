@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../store/actions/auth-actions";
-import createClassName from "./dynamic-class-names";
-const classname = createClassName("form-control form-control-lg");
+import TextFieldGroup from '../common/TextFieldGroup';
+
 
 const propTypes = {
   loginUser: PropTypes.func.isRequired,
@@ -43,10 +43,7 @@ class Login extends Component {
   render() {
     const { handleChange, handleSubmit } = this;
     const { email, password, errors } = this.state;
-    const style = {
-      email: classname({ "is-invalid": errors.email }),
-      password: classname({ "is-invalid": errors.password })
-    };
+    
     return (
       <div className="login">
         <div className="container">
@@ -57,28 +54,22 @@ class Login extends Component {
                 Sign in to your DevConnector account
               </p>
               <form action="dashboard.html" onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <input
-                    type="email"
-                    className={style.email}
-                    placeholder="Email Address"
-                    name="email"
-                    value={email}
-                    onChange={handleChange}
-                  />
-                  <div className="invalid-feedback">{errors.email}</div>
-                </div>
-                <div className="form-group">
-                  <input
-                    type="password"
-                    className={style.password}
-                    placeholder="Password"
-                    name="password"
-                    value={password}
-                    onChange={handleChange}
-                  />
-                  <div className="invalid-feedback">{errors.password}</div>
-                </div>
+              <TextFieldGroup
+                name="email"
+                value={email}
+                placeholder="Email Adress"
+                error={errors.email}
+                type="email"
+                onChangeHandler={handleChange}
+              />
+              <TextFieldGroup
+                name="password"
+                value={password}
+                placeholder="Password"
+                error={errors.password}
+                type="password"
+                onChangeHandler={handleChange}
+              />
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
             </div>
