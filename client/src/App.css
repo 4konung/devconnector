@@ -42,3 +42,9 @@ img {
 .form-control::placeholder {
   color: #bbb !important;
 }
+
+.dashboard_spinner {
+  width: 200px;
+  margin: auto;
+  display: block;
+}

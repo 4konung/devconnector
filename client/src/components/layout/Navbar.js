@@ -4,17 +4,19 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { logoutUser } from "../../store/actions/auth-actions";
+import { clearCurrentProfile } from "../../store/actions/profile-actions";
 
 const propTypes = {
   logoutUser: PropTypes.func.isRequired,
+  clearCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 
 class Navbar extends Component {
   handleLogOut = event => {
-    const { logoutUser, history } = this.props;
+    const { logoutUser, clearCurrentProfile } = this.props;
     event.preventDefault();
-    setTimeout(() => history.push("/"), 0);
+    clearCurrentProfile();
     logoutUser();
   };
   authLinks = ({ avatar, name }) => {
@@ -97,4 +99,4 @@ const mapStateToProps = ({ auth }) => {
 
 const NavbarWithRouter = withRouter(Navbar);
 
-export default connect(mapStateToProps, { logoutUser })(NavbarWithRouter);
+export default connect(mapStateToProps, { logoutUser, clearCurrentProfile })(NavbarWithRouter);
