@@ -14,7 +14,11 @@ const propTypes = {
 };
 
 class Register extends Component {
-  static getDerivedStateFromProps({ errors }) {
+  static getDerivedStateFromProps({ errors, history, auth }) {
+    if (auth.isAuthenticated) {
+      history.push("/dashboard");
+      return null;
+    }
     return Object.keys(errors).length > 0 ? { errors } : null;
   }
   initialState = {
