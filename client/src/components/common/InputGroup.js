@@ -10,8 +10,7 @@ const propTypes = {
   placeholder: PropTypes.string,
   error: PropTypes.string,
   type: PropTypes.string.isRequired,
-  onChangeHandler: PropTypes.func.isRequired,
-  icon: PropTypes.string
+  onChangeHandler: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -23,7 +22,6 @@ const InputGroup = ({
   value,
   placeholder,
   error,
-  icon,
   type,
   onChangeHandler
 }) => {
@@ -31,7 +29,7 @@ const InputGroup = ({
     <div className="input-group mb-3">
       <div className="input-group-prepend">
         <span className="input-group-text">
-          <i className={icon} />
+          <i className={`fab fa-${name || "awesome"} fa-fw`} />
         </span>
       </div>
       <input

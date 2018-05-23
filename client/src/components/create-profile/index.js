@@ -45,6 +45,12 @@ export class CreateProfile extends Component {
     //this.props.registerUser(newUser, history);
     console.log("Submitted");
   };
+  toggleSocialInputs = (e) => {
+    e.preventDefault();
+    this.setState(
+      ({displaySocialInputs})=>({displaySocialInputs: !displaySocialInputs})
+    );
+  }
 
   render() {
     const {
@@ -64,7 +70,7 @@ export class CreateProfile extends Component {
       instagram,
       errors
     } = this.state;
-    const { handleChange, handleSubmit } = this;
+    const { handleChange, handleSubmit, toggleSocialInputs } = this;
 
     return (
       <CreateProfileLayout onSubmitHandler={handleSubmit}>
@@ -134,6 +140,57 @@ export class CreateProfile extends Component {
             error={errors.bio}
             info="Tell us little about youself"
           />
+          <div className="mb-3">
+            <button
+             className="btn btn-light"
+             onClick={toggleSocialInputs}
+            >Add Social Network Links
+            </button>
+            <span className="text-muted"> Optional</span>
+          </div>
+          {
+            !displaySocialInputs 
+              ? 
+              null 
+              :
+              <Fragment>
+                <InputGroup
+                  placeholder="Youtube Profile URL"
+                  name="youtube"
+                  value={youtube}
+                  onChangeHandler={handleChange}
+                  error={errors.youtube}
+                />
+                <InputGroup
+                  placeholder="Twitter Profile URL"
+                  name="twitter"
+                  value={twitter}
+                  onChangeHandler={handleChange}
+                  error={errors.twitter}
+                />
+                <InputGroup
+                  placeholder="Facebook Profile URL"
+                  name="facebook"
+                  value={facebook}
+                  onChangeHandler={handleChange}
+                  error={errors.facebook}
+                />
+                <InputGroup
+                  placeholder="Linkedin Profile URL"
+                  name="linkedin"
+                  value={linkedin}
+                  onChangeHandler={handleChange}
+                  error={errors.linkedin}
+                />
+                <InputGroup
+                  placeholder="Instagram Profile URL"
+                  name="instagram"
+                  value={instagram}
+                  onChangeHandler={handleChange}
+                  error={errors.instagram}
+                />
+              </Fragment>
+          }
         </Fragment>
       </CreateProfileLayout>
     );
