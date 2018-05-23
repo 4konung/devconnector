@@ -20,6 +20,7 @@ export class CreateProfile extends Component {
     company: "",
     website: "",
     location: "",
+    skills: "",
     status: "",
     githubusername: "",
     bio: "",
@@ -52,6 +53,7 @@ export class CreateProfile extends Component {
       company,
       website,
       location,
+      skills,
       status,
       githubusername,
       bio,
@@ -101,11 +103,11 @@ export class CreateProfile extends Component {
             info="Could be your website or company one"
           />
           <TextFieldGroup
-            placeholder="Loacation"
-            name="loacation"
-            value={loacation}
+            placeholder="Location"
+            name="location"
+            value={location}
             onChangeHandler={handleChange}
-            error={errors.loacation}
+            error={errors.location}
             info="City or Country"
           />
           <TextFieldGroup

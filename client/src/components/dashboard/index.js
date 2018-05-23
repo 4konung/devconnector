@@ -23,7 +23,6 @@ class Dashboard extends Component {
       auth: { user },
       profile: { profile, loading }
     } = this.props;
-    console.log(profile)
     return (
       <DashboardLayout>
         <Fragment>
