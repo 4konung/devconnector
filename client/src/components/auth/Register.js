@@ -6,9 +6,16 @@ import PropTypes from "prop-types";
 import createClassName from "./dynamic-class-names";
 const classname = createClassName("form-control form-control-lg");
 
+const propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
+};
+
 class Register extends Component {
   static getDerivedStateFromProps({ errors }) {
-    return (Object.keys(errors).length > 0) ? {errors} : null ;
+    return Object.keys(errors).length > 0 ? { errors } : null;
   }
   initialState = {
     name: "",
@@ -113,14 +120,9 @@ class Register extends Component {
       </div>
     );
   }
-};
-
-Register.propTypes = {
-  registerUser: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
 }
+
+Register.propTypes = propTypes;
 
 const mapStateToProps = ({ auth, errors }) => {
   return {
@@ -129,6 +131,5 @@ const mapStateToProps = ({ auth, errors }) => {
   };
 };
 
-
 const RegisterWithRouter = withRouter(Register);
-export default connect(mapStateToProps, {registerUser})(RegisterWithRouter);
+export default connect(mapStateToProps, { registerUser })(RegisterWithRouter);
