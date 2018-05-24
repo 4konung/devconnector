@@ -1,9 +1,12 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import {withRouter} from 'react-router-dom'
-import { createProfile } from "../../store/actions/profile-actions";
-import CreateProfileLayout from "./CreateProfileLayout";
+import { withRouter } from "react-router-dom";
+import {
+  createProfile,
+  getCurrentProfile
+} from "../../store/actions/profile-actions";
+import EditProfileLayout from "./EditProfileLayout";
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextareaFieldGroup from "../common/TextareaFieldGroup";
 import InputGroup from "../common/InputGroup";
@@ -12,22 +15,30 @@ import {structeredProfile, optionslist} from '../helpers';
 
 const propTypes = {
   errors: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  createProfile: PropTypes.func.isRequired
 };
 
-export class CreateProfile extends Component {
-  static getDerivedStateFromProps({ errors }) {
+export class EditProfile extends Component {
+  static getDerivedStateFromProps({ errors, profile:{profile} }) {
     if (Object.keys(errors).length > 0) {
       return { errors };
+    }
+    if(profile && Object.keys(profile).length > 0) {
+      return {...structeredProfile(profile)}
     }
     return null;
   }
   initialState = {
     ...structeredProfile({}),
     displaySocialInputs: false,
-    errors: {},
+    errors: {}
   };
   state = this.initialState;
+  componentDidMount() {
+    this.props.getCurrentProfile();
+  }
   handleChange = ({ target: { name, value } }) => {
     this.setState({
       [name]: value
@@ -64,9 +75,9 @@ export class CreateProfile extends Component {
       errors
     } = this.state;
     const { handleChange, handleSubmit, toggleSocialInputs } = this;
-
+    const {profile:{loading}} = this.props
     return (
-      <CreateProfileLayout onSubmitHandler={handleSubmit}>
+      <EditProfileLayout onSubmitHandler={handleSubmit} isLoading={loading}>
         <Fragment>
           <TextFieldGroup
             placeholder="* Profile Handle"
@@ -134,7 +145,11 @@ export class CreateProfile extends Component {
             info="Tell us little about youself"
           />
           <div className="mb-3">
-            <button type='button' className="btn btn-light" onClick={toggleSocialInputs}>
+            <button
+              type="button"
+              className="btn btn-light"
+              onClick={toggleSocialInputs}
+            >
               Add Social Network Links
             </button>
             <span className="text-muted"> Optional</span>
@@ -179,18 +194,20 @@ export class CreateProfile extends Component {
             </Fragment>
           )}
         </Fragment>
-      </CreateProfileLayout>
+      </EditProfileLayout>
     );
   }
 }
 
-CreateProfile.propTypes = propTypes;
+EditProfile.propTypes = propTypes;
 
 const mapStateToProps = ({ profile, errors }) => ({
   profile,
   errors
 });
 
-const CreateProfileWithRouter = withRouter(CreateProfile);
+const EditProfileWithRouter = withRouter(EditProfile);
 
-export default connect(mapStateToProps, { createProfile })(CreateProfileWithRouter);
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
+  EditProfileWithRouter
+);

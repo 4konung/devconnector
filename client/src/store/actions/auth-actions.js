@@ -13,6 +13,11 @@ import {
 export const registerUser = (userData, history) => dispatch => {
   axios
     .post("/api/users/register", userData)
+    .then(res=> {
+      dispatch({
+        type: RESET_ERRORS
+      });
+    })
     .then(() => history.push("/login"))
     .catch(({ response }) => {
       dispatch({
@@ -26,6 +31,12 @@ export const registerUser = (userData, history) => dispatch => {
 export const loginUser = userData => dispatch => {
   axios
     .post("/api/users/login", userData)
+    .then(res=> {
+      dispatch({
+        type: RESET_ERRORS
+      });
+      return res
+    })
     .then(({ data }) => {
       const { token } = data;
       // Save to localStorage Token
@@ -36,11 +47,6 @@ export const loginUser = userData => dispatch => {
       const decoded = jwt_decode(token);
       // Set current user
       dispatch(setCurrentUser(decoded));
-    })
-    .then(res => {
-      dispatch({
-        type: RESET_ERRORS
-      });
     })
     .catch(({ response }) => {
       dispatch({

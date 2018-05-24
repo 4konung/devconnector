@@ -80,6 +80,12 @@ class Navbar extends Component {
                   Developers
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/dashboard">
+                  {" "}
+                  Dashboard
+                </Link>
+              </li>
             </ul>
             {isAuthenticated ? authLinks(user) : guestLinks()}
           </div>
@@ -99,4 +105,6 @@ const mapStateToProps = ({ auth }) => {
 
 const NavbarWithRouter = withRouter(Navbar);
 
-export default connect(mapStateToProps, { logoutUser, clearCurrentProfile })(NavbarWithRouter);
+export default connect(mapStateToProps, { logoutUser, clearCurrentProfile })(
+  NavbarWithRouter
+);

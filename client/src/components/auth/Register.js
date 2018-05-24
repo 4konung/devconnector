@@ -18,7 +18,7 @@ class Register extends Component {
       history.push("/dashboard");
       return null;
     }
-    return Object.keys(errors).length > 0 ? { errors } : null;
+    return { errors };
   }
   initialState = {
     name: "",

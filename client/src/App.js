@@ -9,7 +9,9 @@ import { Navbar, Landing, Footer } from "./components/layout/";
 import { Login, Register } from "./components/auth";
 import Dashboard from "./components/dashboard/";
 import PrivateRoute from "./components/common/PrivateRoute";
-import CreateProfile from './components/create-profile';
+import CreateProfile from "./components/create-profile";
+import EditProfile from "./components/edit-profile";
+import AddExperience from "./components/add-credentials/AddExperience";
 import store from "./store";
 import "./App.css";
 
@@ -49,7 +51,20 @@ class App extends Component {
               <Route exact path="/register" component={Register} />
               <Switch>
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
-                <PrivateRoute exact path='/create-profile' component={CreateProfile} />
+                <PrivateRoute
+                  exact
+                  path="/create-profile"
+                  component={CreateProfile}
+                />
+                <PrivateRoute
+                  exact
+                  path="/edit-profile"
+                  component={EditProfile}
+                />
+                <PrivateRoute
+                  path="/add-experience"
+                  component={AddExperience}
+                />
               </Switch>
             </div>
             <Footer />

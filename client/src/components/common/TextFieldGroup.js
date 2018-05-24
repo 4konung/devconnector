@@ -12,7 +12,7 @@ const propTypes = {
   info: PropTypes.string,
   type: PropTypes.string.isRequired,
   onChangeHandler: PropTypes.func.isRequired,
-  disabled: PropTypes.string
+  disabled: PropTypes.bool
 };
 
 const defaultProps = {
