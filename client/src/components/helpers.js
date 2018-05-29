@@ -60,6 +60,24 @@ export const structeredExperience = ({
   description
 });
 
+export const structeredEducation = ({
+  school = "",
+  degree = "",
+  from = "",
+  to = "",
+  fieldofstudy = "",
+  current = false,
+  description = ""
+}) => ({
+  school,
+  degree,
+  from,
+  to,
+  fieldofstudy,
+  current,
+  description
+});
+
 export const optionslist = [
   {
     label: "* Select Professional Status",

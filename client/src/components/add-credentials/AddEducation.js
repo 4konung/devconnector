@@ -5,29 +5,30 @@ import { withRouter } from "react-router-dom";
 import AddCredentialsLayout from "./AddCredentialsLayout";
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextareaFieldGroup from "../common/TextareaFieldGroup";
+import { addEducation } from "../../store/actions/profile-actions";
+import { structeredEducation } from "../helpers";
 import textData from "./text-data";
 
 const propTypes = {
   profile: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
+  addEducation: PropTypes.func.isRequired
 };
 
 export class AddEducation extends Component {
-
-  static getDerivedStateFromProps({errors}) {
-
-    return {errors}
+  static getDerivedStateFromProps({ errors }) {
+    return { errors };
   }
 
   state = {
+    ...structeredEducation({}),
     errors: {}
   };
 
-
   handleCheck = e => {
-    this.setState(({disabled, current})=>({
+    this.setState(({ disabled, current }) => ({
       current: !current
-    }))
+    }));
   };
 
   handleChange = ({ target: { name, value } }) => {
@@ -37,17 +38,17 @@ export class AddEducation extends Component {
   };
   handleSubmit = event => {
     event.preventDefault();
-    const { history} = this.props;
-    //const experianceData = structeredExperience(this.state)
-    //addExpereriance(experianceData, history);
+    const { history, addEducation } = this.props;
+    const educationData = structeredEducation(this.state);
+    addEducation(educationData, history);
   };
 
   render() {
     const {
       errors,
-      company,
-      title,
-      location,
+      school,
+      degree,
+      fieldofstudy,
       from,
       to,
       current,
@@ -55,31 +56,31 @@ export class AddEducation extends Component {
     } = this.state;
     const { handleChange, handleCheck, handleSubmit } = this;
     return (
-      <AddCredentialsLayout 
+      <AddCredentialsLayout
         textData={textData.education}
         onSubmitHandler={handleSubmit}
       >
         <Fragment>
           <TextFieldGroup
-            placeholder="* Company"
-            name="company"
-            value={company}
+            placeholder="* School"
+            name="school"
+            value={school}
             onChangeHandler={handleChange}
-            error={errors.company}
+            error={errors.school}
           />
           <TextFieldGroup
-            placeholder="* Job Title"
-            name="title"
-            value={title}
+            placeholder="* Degree or certification"
+            name="degree"
+            value={degree}
             onChangeHandler={handleChange}
-            error={errors.title}
+            error={errors.degree}
           />
           <TextFieldGroup
-            placeholder="Location"
-            name="location"
-            value={location}
+            placeholder="* Field of study"
+            name="fieldofstudy"
+            value={fieldofstudy}
             onChangeHandler={handleChange}
-            error={errors.location}
+            error={errors.fieldofstudy}
           />
           <h6>From Date</h6>
           <TextFieldGroup
@@ -109,15 +110,16 @@ export class AddEducation extends Component {
               id="current"
             />
             <label htmlFor="current" className="form-check-label">
-              Current Job
+              Current education
             </label>
           </div>
           <TextareaFieldGroup
-            placeholder="Job Description"
+            placeholder="Program description"
             name="description"
             value={description}
             onChangeHandler={handleChange}
             error={errors.description}
+            info="Tell us about program that you were in"
           />
         </Fragment>
       </AddCredentialsLayout>
@@ -132,6 +134,8 @@ const mapStateToProps = ({ profile, errors }) => ({
   errors
 });
 
-const AddExperienceWithRouter = withRouter(AddEducation);
+const AddEducationWithRouter = withRouter(AddEducation);
 
-export default connect(mapStateToProps, null)(AddExperienceWithRouter);
+export default connect(mapStateToProps, { addEducation })(
+  AddEducationWithRouter
+);

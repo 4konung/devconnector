@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import ExperienceCredentials from './ExperienceCredentials';
+import EducationCredentials from './EducationCredentials'
 
 const propTypes = {
   name: PropTypes.string.isRequired,
@@ -29,6 +31,9 @@ const UserHaveProfile = ({ name, handle, handlerDelete }) => {
         </Link>
       </div>
       <div style={style} />
+
+      <ExperienceCredentials />
+      <EducationCredentials />
       <button
        className="btn btn-danger"
        onClick={handlerDelete}

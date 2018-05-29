@@ -4,7 +4,7 @@ export default {
     text: 'Add any job or position that you have had in the past or current.'
   },
   education:{
-    title: '',
-    text: ''
+    title: 'Add Education',
+    text: 'Add any school, bootcamp etc. that you attended'
   }
 }
