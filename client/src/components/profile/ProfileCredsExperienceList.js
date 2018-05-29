@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types'
 import Moment from "react-moment";
 import isEmpty from "../../validation/is-empty";
 
@@ -40,6 +41,10 @@ const ProfileCredsExperienceList = ({ experience }) => {
       )}
     </div>
   );
+};
+
+ProfileCredsExperienceList.propTypes = {
+  experience: PropTypes.array.isRequired
 };
 
 export default ProfileCredsExperienceList;

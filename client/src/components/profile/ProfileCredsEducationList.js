@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types'
 import Moment from "react-moment";
 import isEmpty from "../../validation/is-empty";
 
@@ -36,6 +37,10 @@ const ProfileCredsEducationList = ({ education}) => {
       )}
     </div>
   );
+};
+
+ProfileCredsEducationList.propTypes = {
+  education: PropTypes.array.isRequired
 };
 
 export default ProfileCredsEducationList;

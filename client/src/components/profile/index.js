@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 import ProfileLayout from "./ProfileLayout";
 import ProfileHeader from "./ProfileHeader";
 import ProfileAbout from "./ProfileAbout";
-import ProfileCreds from "./ProfileCreds";
+import ProfileCredsExperienceList from "./ProfileCredsExperienceList";
+import ProfileCredsEducationList from "./ProfileCredsEducationList";
 import ProfileGitHub from "./ProfileGitHub";
-import Spinner from '../common/Spinner';
+import Spinner from "../common/Spinner";
 import { getProfileByHandle } from "../../store/actions/profile-actions";
 
 const propTypes = {
@@ -21,21 +22,24 @@ class Profile extends Component {
     if (handle) this.props.getProfileByHandle(handle);
   }
   render() {
-    const { profile, loading } = this.props.profile;
+    const { profile, loading, githubusername } = this.props.profile;
     return (
       <ProfileLayout>
-        {
-          profile === null || loading
-            ?
-            <Spinner />
-            :
+        {profile === null || loading ? (
+          <Spinner />
+        ) : (
           <Fragment>
             <ProfileHeader {...profile} />
-            <ProfileAbout {...profile}/>
-            <ProfileCreds {...profile}/>
-            <ProfileGitHub />
+            <ProfileAbout {...profile} />
+            <div className="row">
+              <ProfileCredsExperienceList experience={profile.experience} />
+              <ProfileCredsEducationList education={profile.education} />
+            </div>
+            {profile.githubusername ? (
+              <ProfileGitHub username={profile.githubusername} />
+            ) : null}
           </Fragment>
-        }
+        )}
       </ProfileLayout>
     );
   }
