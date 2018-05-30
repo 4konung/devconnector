@@ -15,11 +15,9 @@ export default (state = initialState, action) => {
         user: action.payload
       };
     }
-    
     case RESET_CURRENT_USER: {
       return initialState;
     }
-
     default: {
       return state;
     }

@@ -3,6 +3,7 @@ import {
   GET_PROFILE,
   PROFILE_LOADING,
   GET_ERRORS,
+  RESET_ERRORS,
   CLEAR_CURRENT_PROFILE,
   RESET_CURRENT_USER,
   GET_ALL_PROFILES
@@ -24,6 +25,7 @@ export const clearCurrentProfile = () => {
 
 // Create profile
 export const createProfile = (profileData, history) => dispatch => {
+  dispatch({ type: RESET_ERRORS });
   axios
     .post("/api/profile", profileData)
     .then(res => history.push("/dashboard"))
@@ -64,6 +66,7 @@ export const getCurrentProfile = () => dispatch => {
 
 // Add expereince
 export const addExpereriance = (expereinceData, history) => dispatch => {
+  dispatch({ type: RESET_ERRORS });
   axios
     .post("/api/profile/experience", expereinceData)
     .then(res => history.push("/dashboard"))
@@ -81,6 +84,7 @@ export const deleteExperience = id => dispatch => {
 
 // Add education
 export const addEducation = (educationData, history) => dispatch => {
+  dispatch({ type: RESET_ERRORS });
   axios
     .post("/api/profile/education", educationData)
     .then(res => history.push("/dashboard"))
@@ -111,7 +115,7 @@ export const getProfiles = () => dispatch => {
 };
 
 //Get profile by handle
-export const getProfileByHandle = (handle) => dispatch=> {
+export const getProfileByHandle = handle => dispatch => {
   axios
     .get(`/api/profile/handle/${handle}`)
     .then(({ data }) =>
@@ -120,5 +124,5 @@ export const getProfileByHandle = (handle) => dispatch=> {
         payload: data
       })
     )
-    .catch(error => dispatch({ type: GET_PROFILE, payload: null }))
-}
+    .catch(error => dispatch({ type: GET_PROFILE, payload: null }));
+};

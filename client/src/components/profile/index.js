@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import ProfileLayout from "./ProfileLayout";
 import ProfileHeader from "./ProfileHeader";
 import ProfileAbout from "./ProfileAbout";
@@ -22,7 +21,7 @@ class Profile extends Component {
     if (handle) this.props.getProfileByHandle(handle);
   }
   render() {
-    const { profile, loading, githubusername } = this.props.profile;
+    const { profile, loading } = this.props.profile;
     return (
       <ProfileLayout>
         {profile === null || loading ? (

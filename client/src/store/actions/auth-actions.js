@@ -13,7 +13,7 @@ import {
 export const registerUser = (userData, history) => dispatch => {
   axios
     .post("/api/users/register", userData)
-    .then(res=> {
+    .then(res => {
       dispatch({
         type: RESET_ERRORS
       });
@@ -29,14 +29,11 @@ export const registerUser = (userData, history) => dispatch => {
 
 // Login User
 export const loginUser = userData => dispatch => {
+  dispatch({
+    type: RESET_ERRORS
+  });
   axios
     .post("/api/users/login", userData)
-    .then(res=> {
-      dispatch({
-        type: RESET_ERRORS
-      });
-      return res
-    })
     .then(({ data }) => {
       const { token } = data;
       // Save to localStorage Token

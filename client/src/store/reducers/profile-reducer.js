@@ -19,14 +19,9 @@ export default (state = initialState, action) => {
         loading: true
       };
     }
-
     case CLEAR_CURRENT_PROFILE: {
-      return {
-        ...state,
-        profile: null
-      };
+      return initialState;
     }
-
     case GET_PROFILE: {
       return {
         ...state,
@@ -34,14 +29,13 @@ export default (state = initialState, action) => {
         loading: false
       };
     }
-
     case GET_ALL_PROFILES: {
       return {
         ...state,
         profiles: action.payload,
         loading: false,
         profile: null
-      }
+      };
     }
     default: {
       return state;

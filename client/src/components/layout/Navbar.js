@@ -86,6 +86,12 @@ class Navbar extends Component {
                   Dashboard
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/posts">
+                  {" "}
+                  Post Feed
+                </Link>
+              </li>
             </ul>
             {isAuthenticated ? authLinks(user) : guestLinks()}
           </div>

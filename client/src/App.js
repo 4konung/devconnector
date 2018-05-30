@@ -12,9 +12,12 @@ import PrivateRoute from "./components/common/PrivateRoute";
 import CreateProfile from "./components/create-profile";
 import EditProfile from "./components/edit-profile";
 import AddExperience from "./components/add-credentials/AddExperience";
-import AddEducation from './components/add-credentials/AddEducation';
-import Profiles from './components/profiles';
-import Profile from './components/profile';
+import AddEducation from "./components/add-credentials/AddEducation";
+import Profiles from "./components/profiles";
+import Profile from "./components/profile";
+import Posts from "./components/posts";
+import Post from "./components/post";
+import PageNotFound from "./components/common/PageNotFound";
 import store from "./store";
 import "./App.css";
 
@@ -49,12 +52,13 @@ class App extends Component {
           <div className="App">
             <Navbar />
             <Route exact path="/" component={Landing} />
+
             <div className="container">
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/profiles" component={Profiles} />
-              <Route exact path="/profile/:handle" component={Profile} />
               <Switch>
+                <Route exact path="/profile/:handle" component={Profile} />
+                <Route exact path="/profiles" component={Profiles} />
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <PrivateRoute
                   exact
@@ -70,10 +74,19 @@ class App extends Component {
                   path="/add-experience"
                   component={AddExperience}
                 />
-                <PrivateRoute
-                  path="/add-education"
-                  component={AddEducation}
+                <PrivateRoute 
+                  path="/add-education" 
+                  component={AddEducation} 
                 />
+                <PrivateRoute 
+                  path="/posts" 
+                  component={Posts} 
+                />
+                <PrivateRoute 
+                  path="/post/:id" 
+                  component={Post} 
+                />
+                <Route component={PageNotFound} />
               </Switch>
             </div>
             <Footer />

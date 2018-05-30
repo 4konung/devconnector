@@ -7,11 +7,9 @@ export default (state = initialState, action) => {
     case GET_ERRORS: {
       return action.payload;
     }
-
     case RESET_ERRORS: {
       return initialState;
     }
-    
     default: {
       return state;
     }

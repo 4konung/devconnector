@@ -17,10 +17,7 @@ const propTypes = {
 
 export class CreateProfile extends Component {
   static getDerivedStateFromProps({ errors }) {
-    if (Object.keys(errors).length > 0) {
       return { errors };
-    }
-    return null;
   }
   initialState = {
     ...structeredProfile({}),
