@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import ChatLayout from "./ChatLayout";
 import ChatWindow from "./ChatWindow";
 import ChatForm from "./ChatForm";
-import WebSocket from "ws";
 
 export class Chat extends Component {
   static propTypes = {};
@@ -15,7 +14,7 @@ export class Chat extends Component {
   componentDidMount(){
     const hostName = window.location.hostname;
     const port = window.location.port;
-    const ws = new WebSocket(`ws://${hostName}:${port}`)
+    console.log(`ws://${hostName}:${port}`)
   }
 
   render() {
