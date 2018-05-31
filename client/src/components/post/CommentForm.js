@@ -8,12 +8,12 @@ const propTypes = {
   addComment: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
-  postId: PropTypes.string.isRequired,
+  postId: PropTypes.string.isRequired
 };
 
 export class CommentForm extends Component {
   static getDerivedStateFromProps({ errors }) {
-    return {errors};
+    return { errors };
   }
   state = {
     text: "",
