@@ -3,17 +3,15 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const path = require("path");
-const http = require('http');
-const WebSocket = require('ws');
+const http = require("http");
+const SocketServer = require("ws").Server;
 
 const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");
 const posts = require("./routes/api/posts");
 
 const app = express();
-
-const server = http.createServer(app);
-
+const port = process.env.PORT || 5000;
 
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -39,34 +37,29 @@ app.use("/api/users", users);
 app.use("/api/profile", profile);
 app.use("/api/posts", posts);
 
-//Using WebSocket
-const ws = new WebSocket.Server({server});
-
-ws.on('connection', (ws) => {
-
-  //connection is up, let's add a simple simple event
-  ws.on('message', (message) => {
-
-      //log the received message and send it back to the client
-      console.log('received: %s', message);
-      ws.send(`Hello, you sent -> ${message}`);
-  });
-
-  //send immediatly a feedback to the incoming connection    
-  ws.send('Hi there, I am a WebSocket server');
-});
-
-
-
 //Server static assets if in production
 if (process.env.NODE_ENV === "production") {
   //Set static folder
-  app.use(express.static(path.join(__dirname, "client", "build")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  const server = app
+    .use(express.static(path.join(__dirname, "client", "build")))
+    .get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+    })
+    .listen(port, () => console.log(`Server runs at localhost:${port}`));
+  
+  //Using WebSocket
+  const wss = new SocketServer({ server });
+  wss.on("connection", ws => {
+    //connection is up, let's add a simple simple event
+    ws.on("message", message => {
+      //log the received message and send it back to the client
+      console.log("received: %s", message);
+      ws.send(`Hello, you sent -> ${message}`);
+    });
+
+    //send immediatly a feedback to the incoming connection
+    ws.send("Hi there, I am a WebSocket server");
   });
+} else {
+  app.listen(port, () => console.log(`Server runs at localhost:${port}`));
 }
-
-const port = process.env.PORT || 5000;
-
-server.listen(port, () => console.log(`Server runs at locallhost:${port}`));
