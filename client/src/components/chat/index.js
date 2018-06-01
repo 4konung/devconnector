@@ -15,6 +15,7 @@ export class Chat extends Component {
   componentDidMount() {
     const hostName = window.location.origin.replace(/^http/, "ws")
     const ws = new WebSocket(`${hostName}/chat`);
+    ws.on('connection', (ws)=> ws.send('hi!'))
   }
 
   render() {
