@@ -3,14 +3,16 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const path = require("path");
-const http = require("http");
 const SocketServer = require("ws").Server;
+
 
 const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");
 const posts = require("./routes/api/posts");
+const chat = require("./routes/api/chat")
 
 const app = express();
+const expressWs = require('express-ws')(app)
 const port = process.env.PORT || 5000;
 
 // Body parser middleware
@@ -36,6 +38,7 @@ require("./config/passport")(passport);
 app.use("/api/users", users);
 app.use("/api/profile", profile);
 app.use("/api/posts", posts);
+app.use("/chat", chat);
 
 //Server static assets if in production
 if (process.env.NODE_ENV === "production") {
@@ -61,5 +64,6 @@ if (process.env.NODE_ENV === "production") {
     ws.send("Hi there, I am a WebSocket server");
   });
 } else {
+
   app.listen(port, () => console.log(`Server runs at localhost:${port}`));
 }
