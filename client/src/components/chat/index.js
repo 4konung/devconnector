@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ChatLayout from "./ChatLayout";
 import ChatWindow from "./ChatWindow";
 import ChatForm from "./ChatForm";
-import WebSocket from "ws";
+const WebSocket = require("ws");
 
 export class Chat extends Component {
   static propTypes = {};
