@@ -43,26 +43,12 @@ app.use("/chat", chat);
 //Server static assets if in production
 if (process.env.NODE_ENV === "production") {
   //Set static folder
-  const server = app
+  app
     .use(express.static(path.join(__dirname, "client", "build")))
     .get("*", (req, res) => {
       res.sendFile(path.join(__dirname, "client", "build", "index.html"));
     })
     .listen(port, () => console.log(`Server runs at localhost:${port}`));
-  
-  //Using WebSocket
-  const wss = new SocketServer({ server });
-  wss.on("connection", ws => {
-    //connection is up, let's add a simple simple event
-    ws.on("message", message => {
-      //log the received message and send it back to the client
-      console.log("received: %s", message);
-      ws.send(`Hello, you sent -> ${message}`);
-    });
-
-    //send immediatly a feedback to the incoming connection
-    ws.send("Hi there, I am a WebSocket server");
-  });
 } else {
 
   app.listen(port, () => console.log(`Server runs at localhost:${port}`));
