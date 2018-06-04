@@ -48,3 +48,8 @@ img {
   margin: auto;
   display: block;
 }
+
+.chat-window {
+  max-height: 55vh;
+  overflow-y: auto;
+}
