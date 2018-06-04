@@ -1,18 +1,16 @@
 const express = require("express");
+const socketIO = require("socket.io");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const path = require("path");
-const SocketServer = require("ws").Server;
-
 
 const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");
 const posts = require("./routes/api/posts");
-const chat = require("./routes/api/chat")
+const chat = require("./routes/api/chat");
 
 const app = express();
-const expressWs = require('express-ws')(app)
 const port = process.env.PORT || 5000;
 
 // Body parser middleware
@@ -38,18 +36,24 @@ require("./config/passport")(passport);
 app.use("/api/users", users);
 app.use("/api/profile", profile);
 app.use("/api/posts", posts);
-app.use("/chat", chat);
 
 //Server static assets if in production
 if (process.env.NODE_ENV === "production") {
   //Set static folder
-  app
+  const server = app
     .use(express.static(path.join(__dirname, "client", "build")))
     .get("*", (req, res) => {
       res.sendFile(path.join(__dirname, "client", "build", "index.html"));
     })
-    .listen(port, () => console.log(`Server runs at localhost:${port}`));
+    .listen(port, () =>
+      console.log(`Server runs in production mode at localhost:${port}`)
+    );
+  const io = socketIO(server);
+  chat(io);
 } else {
-
-  app.listen(port, () => console.log(`Server runs at localhost:${port}`));
+  const server = app.listen(port, () =>
+    console.log(`Server runs at localhost:${port}`)
+  );
+  const io = socketIO(server);
+  chat(io);
 }

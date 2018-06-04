@@ -1,13 +1,13 @@
-import React from 'react'
-import ChatWindowLayout from './ChatWindowLayout'
-import MessageItem from './MessageItem'
+import React from "react";
+import ChatWindowLayout from "./ChatWindowLayout";
+import MessageItem from "./MessageItem";
 
-export default ({messages}) => {
+export default ({ messages, setRef }) => {
   return (
-    <ChatWindowLayout>
-      {
-        messages.map((message, idx) => (<MessageItem key={idx} message={message}/>))
-      }
+    <ChatWindowLayout setRef={setRef}>
+      {messages.map(message => (
+        <MessageItem key={message._id} message={message} />
+      ))}
     </ChatWindowLayout>
-  )
-}
+  );
+};

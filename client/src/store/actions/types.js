@@ -16,3 +16,7 @@ export const GET_POST = "GET_POST";
 export const POST_LOADING = "POST_LOADING";
 export const ADD_POST = "ADD_POST";
 export const DELETE_POST = "DELETE_POST";
+// Chat
+export const GET_ALL_MESSAGES = "GET_MESSAGES";
+export const RESET_MESSAGES = "RESET_MESSAGES";
+export const GET_MESSAGE = "GET_MESSAGE";

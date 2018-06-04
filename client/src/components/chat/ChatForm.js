@@ -1,14 +1,21 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { postMessage } from "../../store/actions/chat-actions";
 import TextareaFieldGroup from "../common/TextareaFieldGroup";
 
-//const propTypes = {};
+const propTypes = {
+  postMessage: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired
+};
 
 export class ChatForm extends Component {
-  state = {
+  initialState = {
     text: "",
     errors: {}
   };
+  state = this.initialState;
+
   handleChange = ({ target: { name, value } }) => {
     this.setState({
       [name]: value
@@ -17,7 +24,17 @@ export class ChatForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const { text } = this.state;
-    console.log(text);
+    if (text.trim().length === 0) {
+      this.setState({ errors: { text: "Message field required" } });
+    } else {
+      const { initialState } = this;
+      const { postMessage, name } = this.props;
+      const messageData = {
+        text,
+        name
+      };
+      this.setState(initialState, postMessage(messageData));
+    }
   };
 
   render() {
@@ -54,4 +71,6 @@ export class ChatForm extends Component {
   }
 }
 
-export default ChatForm;
+ChatForm.propTypes = propTypes;
+
+export default connect(null, { postMessage })(ChatForm);
